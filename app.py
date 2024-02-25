@@ -44,7 +44,7 @@ def show_response():
 
     prompt = st.text_input("Enter the prompt", key="prompt")
 
-    uploaded_image = st.file_uploader("Choose an image", type=["jpg", "png", "jpeg"], accept_multiple_files=True)
+    uploaded_image = st.file_uploader("Choose an image", type=["jpg", "png", "jpeg"])
     if uploaded_image is not None:
         image = Image.open(uploaded_image)
         st.image(image, caption="Your image", use_column_width=True)
@@ -52,7 +52,7 @@ def show_response():
     submit = st.button("Extract Data")
 
     model_behaviour = """
-
+    You are a senior Accountant who has a very deep knowledge in understanding invoices and finances related to it. You'll receive an invoice and you'll have to answer the questions based upon the information present in invoice.
     """
 
     if submit or prompt:
