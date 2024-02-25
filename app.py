@@ -22,25 +22,46 @@ def get_image_bytes(uploaded_image):
     if uploaded_image is not None:
         image_bytes = uploaded_image.getvalue()
 
-def main():
-    load_dotenv()
+        image_info = [
+            {
+                "mime_type": uploaded_image.type,
+                "data": image_bytes
+            }
+        ]
+
+        return image_info
+
+    else:
+        raise FileNotFoundError("Image not found")
+
+
+
+def show_response():
+    model = initialize_model()
 
     st.set_page_config(page_title="Inoice Extraction Bot")
     st.subheader("I'll help you in extracting invoice data...")
 
-    pdf = st.file_uploader(
-        "Upload your invoices here, only PDF files allowed",
-        type=["pdf"],
-        accept_multiple_files=True,
-    )
+    prompt = st.text_input("Enter the prompt", key="prompt")
+
+    uploaded_image = st.file_uploader("Choose an image", type=["jpg", "png", "jpeg"], accept_multiple_files=True)
+    if uploaded_image is not None:
+        image = Image.open(uploaded_image)
+        st.image(image, caption="Your image", use_column_width=True)
 
     submit = st.button("Extract Data")
 
-    if submit:
-        with st.spinner("Wait for it ..."):
-            st.write("response")
-        st.success("Hope you liked the response 🚀")
+    model_behaviour = """
 
+    """
+
+    if submit or prompt:
+        if len(prompt) > 0:
+            image_info = get_image_bytes(uploaded_image)
+            response = get_response(model, model_behaviour, image_info, prompt)
+            st.write(response)
+        else:
+            raise ValueError("Wrong Prompt!")
 
 if __name__ == "__main__":
-    main()
+    show_response()
