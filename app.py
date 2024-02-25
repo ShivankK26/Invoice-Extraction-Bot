@@ -1,5 +1,20 @@
+# Frontend code
+import os
 import streamlit as st
+import google.generativeai as genai
+from PIL import Image
 from dotenv import load_dotenv
+
+load_dotenv()
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+genai.configure(api_key=GEMINI_API_KEY)
+
+
+def initialize_model(model_name="gemini-pro-vision"):
+    model = genai.GenerativeModel(model_name)
+    return model
+
 
 
 def main():
