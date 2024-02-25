@@ -1,4 +1,3 @@
-# Frontend code
 import os
 import streamlit as st
 import google.generativeai as genai
@@ -15,7 +14,13 @@ def initialize_model(model_name="gemini-pro-vision"):
     model = genai.GenerativeModel(model_name)
     return model
 
+def get_response(model, model_behavior, image, prompt):
+    response = model.generate_content([model_behavior, image[0], prompt])
+    return response.text
 
+def get_image_bytes(uploaded_image):
+    if uploaded_image is not None:
+        image_bytes = uploaded_image.getvalue()
 
 def main():
     load_dotenv()
